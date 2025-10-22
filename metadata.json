@@ -1,0 +1,5 @@
+{
+  "name": "VidPrompt Studio",
+  "description": "A browser-based web app that allows creators to upload videos, enter prompts to generate scripts and cut timeframes, automatically trim, combine, and narrate scenes, edit the result with an in-browser video editor, and download the final video locally.",
+  "requestFramePermissions": []
+}
