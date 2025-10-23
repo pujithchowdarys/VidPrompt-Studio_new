@@ -38,7 +38,7 @@ export const generateScriptAndTimestamps = async (
   prompt: string,
   language: Language,
   fileName: string,
-): Promise<Scene[]> => {
+): Promise<Omit<Scene, 'id'>[]> => {
   try {
     const fullPrompt = `
       You are an expert video editor and scriptwriter.
@@ -74,7 +74,7 @@ export const generateScriptAndTimestamps = async (
         }
     });
 
-    return scenes as Scene[];
+    return scenes as Omit<Scene, 'id'>[];
   } catch (error) {
     console.error("Error generating script from Gemini:", error);
     throw new Error("Failed to generate script. Please check your prompt and try again.");

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Language, Scene } from '../types';
 import { generateScriptAndTimestamps } from '../services/geminiService';
@@ -26,8 +27,9 @@ const PromptStep: React.FC<PromptStepProps> = ({ videoFile, language, onScriptGe
     setError('');
     setSuggestedScenes(null);
     try {
-      const scenes = await generateScriptAndTimestamps(prompt, language, videoFile.name);
-      setSuggestedScenes(scenes);
+      const scenesFromApi = await generateScriptAndTimestamps(prompt, language, videoFile.name);
+      const scenesWithIds: Scene[] = scenesFromApi.map(s => ({ ...s, id: crypto.randomUUID() }));
+      setSuggestedScenes(scenesWithIds);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred.');
     } finally {
@@ -79,8 +81,8 @@ const PromptStep: React.FC<PromptStepProps> = ({ videoFile, language, onScriptGe
             <div className="mt-8 animate-fade-in">
                 <h3 className="text-xl font-bold mb-4 text-brand-accent">Suggested Scenes</h3>
                 <div className="max-h-60 overflow-y-auto bg-gray-900/50 p-4 rounded-lg border border-gray-700 space-y-3">
-                    {suggestedScenes.map((scene, index) => (
-                        <div key={index} className="p-3 bg-gray-800 rounded-md">
+                    {suggestedScenes.map((scene) => (
+                        <div key={scene.id} className="p-3 bg-gray-800 rounded-md">
                             <p className="font-mono text-sm text-brand-primary">{scene.startTime} &rarr; {scene.endTime}</p>
                             <p className="text-brand-text-secondary text-sm mt-1">"{scene.narration}"</p>
                         </div>
